@@ -1,3 +1,6 @@
+## install keras
+##keras::install_keras(method = "gpu")
+
 library("keras")
 library("tidyverse")
 library("recipes")
