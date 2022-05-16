@@ -1,12 +1,8 @@
-
-# packages ----------------------------------------------------------------
-## Install Firatheme
-### remotes::install_github("vankesteren/firatheme")
 library("tidyverse")
 library("keras")
 library("vip")
-library(ggthemes)
-library(firatheme)
+library("ggthemes")
+library("firatheme")
 
 
 # Berechnung der ROC auf den Test-Daten -----------------------------------
@@ -48,7 +44,7 @@ ggplot(data = rocFinalModelTbl,aes(x = fpr, y = tpr)) +
   xlab("False positive rate") +
   ylab("True positive rate") +
   theme_fira()
-ggsave("visuals/ROC.eps")
+ggsave("code/visuals/ROC.eps")
 dev.off()
 
 rocFinalModelTbl %>% 
@@ -77,7 +73,7 @@ vip(pfiFinalModel,
   ylab("Importance") +
   xlab("Feauture") +
   ggtitle("Permutation based feature importance")
-ggsave("visuals/PFI.eps",
+ggsave("code/visuals/PFI.eps",
        width = 5, height = 5)
 
 
@@ -99,26 +95,6 @@ predFun <- function(data){
   data$predC <- ifelse(yPredict >= 0.004, 1, 0)
   data$predC[is.na(data$predC)] <- 0
 
-  
-  return(data)
-}
-
-predFunFake <- function(data){
-  
-  tempData <- data %>% 
-    select(-c(name, from, to, weight))
-  X <- as.matrix(bake(prepATSP, tempData))
-  
-  yPredict <- as.vector(predict(finalModel, X))
-  
-  data$pred <- yPredict
-  data$predA <- ifelse(yPredict >= 0.0004, 1, 0)
-  data$predA[is.na(data$predA)] <- 0
-  data$predB <- ifelse(yPredict >= 0.0018, 1, 0)
-  data$predB[is.na(data$predB)] <- 0
-  data$predC <- ifelse(yPredict >= 0.0034, 1, 0)
-  data$predC[is.na(data$predC)] <- 0
-  
   
   return(data)
 }

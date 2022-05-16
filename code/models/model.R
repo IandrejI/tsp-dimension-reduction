@@ -1,16 +1,10 @@
-
 library("keras")
 library("tidyverse")
 library("recipes")
 library("rsample")
 library("caret")
 
-# Install Keras
-#keras::install_keras(version = "gpu")
-
-
-
-# EDA ---------------------------------------------------------------------
+# ETA ---------------------------------------------------------------------
 modelData <- allATSP %>% 
   filter(!is.na(weightZScore)) %>% 
   select(-c(name, from, to, weight,weightZScore))
@@ -66,6 +60,10 @@ xValid <- as.matrix(validSet %>%
 # Neuronales Netz ---------------------------------------------------------
 
 #Drei Grid-Searches mit 2, 3 und 4-Hidden-layern. 
+#
+
+## Nicht der eigentliche Grid-Search. Eigentliche Grid-Search war umfangreicher.
+
 
 hyperPara <- expand.grid(
   actiFunctions = c("relu", "tanh"),
@@ -80,7 +78,7 @@ hyperPara <- expand.grid(
 
 hyperPara2 <- expand.grid(
   actiFunctions = c("relu", "tanh"),
-  weights = c(274),
+  weights = c(226),
   loss = NA,
   auc = NA,
   recall = NA,
@@ -131,7 +129,7 @@ fits[[i]] <- models[[i]] %>%
     batch_size = 2048,
     validation_data = list(xValid, yValid),
     verbose = TRUE,
-    initial_bias = log(0.00369),
+    initial_bias = log(0.00443),
     callbacks = list(callback_early_stopping(patience = 50)),
     class_weights = list("0" = 1, "1" = hyperPara$weights[i])
   )
@@ -167,7 +165,7 @@ for(i in 1:nrow(hyperPara)){
       batch_size = 2048,
       validation_data = list(xValid, yValid),
       verbose = TRUE,
-      initial_bias = log(0.00369),
+      initial_bias = log(0.00443),
       callbacks = list(callback_early_stopping(patience = 100)),
       class_weights = list("0" = 1, "1" = hyperPara$weights[i])
     )
@@ -219,9 +217,9 @@ hyperPara3
 # Auswahl des besten Modells
 finalModel <- models3[[2]]
 finalModel %>% 
-  save_model_tf("models/Model2")
+  save_model_tf("Model2")
 
-list.files("models/Model2")
+list.files("Model2")
 finalFit <- fits3[[1]]
 plot(finalFit)
 

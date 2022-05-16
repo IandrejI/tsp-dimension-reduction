@@ -1,4 +1,4 @@
-renv::snapshot()
+
 # Packages ----------------------------------------------------------------
 
 
@@ -6,12 +6,6 @@ library(tidyverse)
 library(TSP)
 library(readr)
 
-# UTF8
-
-#PC
-
-#Laptop
-#setwd("C:/Users/andre/OneDrive - ku.de/Studium WFI/3. Semester/Seminar OR/Machine Learning und Green Vehicle Routing")
 
 #_atsp <- t(as.matrix(read_TSPLIB("atspData/")))
 #write_delim(as.data.frame(), "atspData/", delim = " ", col_names = F)
@@ -416,9 +410,6 @@ kro124p_atsp <- t(as.matrix(read_TSPLIB("atspData/kro124p/kro124p.atsp")))
 #write_delim(as.data.frame(kro124p_atsp), "atspData/kro124p/kro124p_atsp.txt", delim = " ", col_names = F)
 kro124p <- atspTibble(kro124p_atsp)
 
-# p43 Chalanging ---------------------------------------------------------------------
-#p43_atsp <- t(as.matrix(read_TSPLIB("atspData/p43/p43.atsp")))
-#write_delim(as.data.frame(p43_atsp), "atspData/p43/p43_atsp.txt", delim = " ", col_names = F)
 
 # rbg323 ------------------------------------------------------------------
 rbg323_atsp <- t(as.matrix(read_TSPLIB("atspData/rbg323/rbg323.atsp")))
@@ -435,13 +426,6 @@ rbg358 <- atspTibble(rbg358_atsp)
 rbg403_atsp <- t(as.matrix(read_TSPLIB("atspData/rbg403/rbg403.atsp")))
 #write_delim(as.data.frame(rbg403_atsp), "atspData/rbg403/rbg403_atsp.txt", delim = " ", col_names = F)
 rbg403 <- atspTibble(rbg403_atsp)
-
-# rbg443 ------------------------------------------------------------------
-
-#rbg443_atsp <- t(as.matrix(read_TSPLIB("atspData/rbg443/rbg443.atsp")))
-#write_delim(as.data.frame(rbg443_atsp), "atspData/rbg443/rbg443_atsp.txt", delim = " ", col_names = F)
-
-#rbg443 <- atspTibble(rbg443_atsp)
 
 # ry48p -------------------------------------------------------------------
 ry48p_atsp <- t(as.matrix(read_TSPLIB("atspData/ry48p/ry48p.atsp")))
@@ -502,12 +486,3 @@ atex4 <- atspTibble(atex4_atsp)
 # Bind all Rows -----------------------------------------------------------
 dfs <- sapply(.GlobalEnv, is.data.frame)
 allATSP <- do.call(rbind,mget(names(dfs)[dfs]))
-
-# Simulation --------------------------------------------------------------------
-
-test_atsp <- matrix(sample(1:200, 100*100, replace = TRUE), 500, 500)
-
-a <- Sys.time()
-test <- atspTibbleNoSvec(test_atsp)
-b <- Sys.time()
-b-a
